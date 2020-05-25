@@ -3,7 +3,7 @@
     Ciudades
     <ul>
         {% for ciudad in ciudades%}
-            <li>{{ ciudad.nombre }} ({{ ciudad.provincia }}/{{ ciudad.pais }})</li>
+            <li><a href="{{ path('consultar_temperatura') }}?id={{ ciudad.id }}">{{ ciudad.nombre }} ({{ ciudad.provincia }}/{{ ciudad.pais }})</a></li>
         {% endfor %}
     </ul>
 {% endblock %}
