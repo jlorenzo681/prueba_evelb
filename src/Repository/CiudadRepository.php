@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Ciudad;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,37 +15,38 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CiudadRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $manager;
+
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $manager)
     {
         parent::__construct($registry, Ciudad::class);
+
+        $this->manager = $manager;
     }
 
-    // /**
-    //  * @return Ciudad[] Returns an array of Ciudad objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Ciudad
+    public function guardarCiudad($nombre): void
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $nuevaCiudad = new Ciudad();
+
+        $nuevaCiudad->setNombre($nombre);
+
+        $this->manager->persist($nuevaCiudad);
+        $this->manager->flush();
     }
-    */
+
+    public function actualizarCiudad(Ciudad $ciudad): Ciudad
+    {
+        $this->manager->persist($ciudad);
+        $this->manager->flush();
+
+        return $ciudad;
+    }
+
+
+    public function eliminarCiudad(Ciudad $ciudad): void
+    {
+        $this->manager->remove($ciudad);
+        $this->manager->flush();
+    }
 }
