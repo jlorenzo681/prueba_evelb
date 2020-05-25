@@ -4,9 +4,14 @@ namespace App\Entity;
 
 use App\Repository\CiudadRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=CiudadRepository::class)
+ * @UniqueEntity(
+ *     fields={"latitud", "longitud"},
+ *     message="Ya se ha guardado la ciudad"
+ * )
  */
 class Ciudad
 {
@@ -33,12 +38,32 @@ class Ciudad
     private $provincia;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="float")
+     */
+    private $norte;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $sur;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $este;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $oeste;
+
+    /**
+     * @ORM\Column(name="latitud", type="integer")
      */
     private $latitud;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="longitud", type="integer")
      */
     private $longitud;
 
@@ -128,5 +153,67 @@ class Ciudad
         $this->provincia = $provincia;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getNorte()
+    {
+        return $this->norte;
+    }
 
+    /**
+     * @param mixed $norte
+     */
+    public function setNorte($norte): void
+    {
+        $this->norte = $norte;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSur()
+    {
+        return $this->sur;
+    }
+
+    /**
+     * @param mixed $sur
+     */
+    public function setSur($sur): void
+    {
+        $this->sur = $sur;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEste()
+    {
+        return $this->este;
+    }
+
+    /**
+     * @param mixed $este
+     */
+    public function setEste($este): void
+    {
+        $this->este = $este;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOeste()
+    {
+        return $this->oeste;
+    }
+
+    /**
+     * @param mixed $oeste
+     */
+    public function setOeste($oeste): void
+    {
+        $this->oeste = $oeste;
+    }
 }

@@ -50,4 +50,29 @@ class WebClientService
 
         return json_decode($data, true);
     }
+
+    /**
+     * @param $norte
+     * @param $sur
+     * @param $este
+     * @param $oeste
+     * @return Array
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     */
+    public function consultarTemperatura($norte, $sur, $este, $oeste): Array
+    {
+        $url = 'http://api.geonames.org/weatherJSON?north=' . round($norte, 1)
+            . '&south='. round($sur, 1)
+            . '&east=' . round($este, 1)
+            . '&west=' . round($oeste, 1)
+            . '&username=ilgeonamessample';
+        $response = $this->httpClient->request('GET', $url);
+
+        $data = $response->getContent();
+
+        return json_decode($data, true);
+    }
 }

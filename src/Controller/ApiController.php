@@ -20,6 +20,7 @@ class ApiController
     private const LATITUD = 'latitud';
     private const TEMPERATURA = 'temperatura';
     private const PROVINCIA = 'provincia';
+    private const BBOX = 'bbox';
     private $ciudadRepository;
     private $utilityService;
 
@@ -53,11 +54,12 @@ class ApiController
         $nombre = $data[self::NOMBRE];
         $pais = $data[self::PAIS];
         $provincia = $data[self::PROVINCIA];
+        $bbox = $data[self::BBOX];
         $latitud = $data[self::LATITUD];
         $longitud = $data[self::LONGITUD];
         $temperatura = 0;
 
-        if (empty($nombre) || empty($pais) || empty($provincia) || empty($latitud) || empty($longitud)) {
+        if (empty($nombre) || empty($pais) || empty($bbox) || empty($longitud)) {
             throw new NotFoundHttpException('Los parametros son obligatorios');
         }
 
@@ -65,6 +67,7 @@ class ApiController
             $nombre,
             $pais,
             $provincia,
+            $bbox,
             $latitud,
             $longitud,
             $temperatura
