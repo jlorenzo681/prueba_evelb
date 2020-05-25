@@ -28,6 +28,11 @@ class Ciudad
     private $pais;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $provincia;
+
+    /**
      * @ORM\Column(type="integer")
      */
     private $latitud;
@@ -106,4 +111,22 @@ class Ciudad
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getProvincia()
+    {
+        return $this->provincia;
+    }
+
+    /**
+     * @param mixed $provincia
+     */
+    public function setProvincia($provincia): void
+    {
+        $this->provincia = $provincia;
+    }
+
+
 }

@@ -8,15 +8,14 @@
 
 namespace App\Service;
 
-
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class CiudadService
+class WebClientService
 {
     private $httpClient;
 
     /**
-     * CiudadService constructor.
+     * WebClientService constructor.
      * @param HttpClientInterface $httpClient
      */
     public function __construct(HttpClientInterface $httpClient)
@@ -32,14 +31,14 @@ class CiudadService
      * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      */
-    public function getCiudad($nombre): Array
+    public function buscarCiudad($nombre): Array
     {
         $url = 'http://api.geonames.org/searchJSON';
         $response = $this->httpClient->request('GET', $url, [
             'query' => [
                 'q' => $nombre,
-                'maxRows' => '20',
-                'startRow' => '0',
+                'maxRows' => 20,
+                'startRow' => 0,
                 'lang' => 'en',
                 'isNameRequired' => 'true',
                 'style' => 'FULL',

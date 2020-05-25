@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    Ciudades
+    <ul>
+        {% for ciudad in ciudades%}
+            <li>{{ ciudad.nombre }} ({{ ciudad.provincia }}/{{ ciudad.pais }})</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

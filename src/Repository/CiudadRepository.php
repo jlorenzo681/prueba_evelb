@@ -24,14 +24,12 @@ class CiudadRepository extends ServiceEntityRepository
         $this->manager = $manager;
     }
 
-
-    public function guardarCiudad($nombre): void
+    /**
+     * @param Ciudad $ciudad
+     */
+    public function guardarCiudad(Ciudad $ciudad): void
     {
-        $nuevaCiudad = new Ciudad();
-
-        $nuevaCiudad->setNombre($nombre);
-
-        $this->manager->persist($nuevaCiudad);
+        $this->manager->persist($ciudad);
         $this->manager->flush();
     }
 
