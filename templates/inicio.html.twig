@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    Inicio
+    <form method="GET" action="{{ path('buscar_ciudad') }}">
+        <label>
+            <input type="text" name="ciudad" />
+        </label>
+        <button type="submit">Buscar</button>
+    </form>
+{% endblock %}
