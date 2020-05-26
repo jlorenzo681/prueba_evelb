@@ -58,12 +58,12 @@ class Ciudad
     private $oeste;
 
     /**
-     * @ORM\Column(name="latitud", type="integer")
+     * @ORM\Column(name="latitud", type="float")
      */
     private $latitud;
 
     /**
-     * @ORM\Column(name="longitud", type="integer")
+     * @ORM\Column(name="longitud", type="float")
      */
     private $longitud;
 
@@ -101,24 +101,24 @@ class Ciudad
         return $this;
     }
 
-    public function getLatitud(): ?int
+    public function getLatitud(): ?float
     {
         return $this->latitud;
     }
 
-    public function setLatitud(int $latitud): self
+    public function setLatitud(float $latitud): self
     {
         $this->latitud = $latitud;
 
         return $this;
     }
 
-    public function getLongitud(): ?int
+    public function getLongitud(): ?float
     {
         return $this->longitud;
     }
 
-    public function setLongitud(int $longitud): self
+    public function setLongitud(float $longitud): self
     {
         $this->longitud = $longitud;
 
