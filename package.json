@@ -1,0 +1,7 @@
+{
+  "name": "prueba_evelb",
+  "version": "1.0.0",
+  "dependencies": {
+    "ol": "latest"
+  }
+}
