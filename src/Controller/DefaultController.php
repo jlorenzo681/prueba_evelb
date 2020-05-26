@@ -96,13 +96,20 @@ class DefaultController extends AbstractController
             throw new NoResultException;
         }
 
-        $norte = $ciudad->getNorte();
-        $sur = $ciudad->getSur();
-        $este = $ciudad->getEste();
-        $oeste = $ciudad->getOeste();
+        $center = [
+            'lat' => round($ciudad->getLatitud(), 2),
+            'lon' => round($ciudad->getLongitud(), 2)
+        ];
+
+        $bbox = [
+            'norte' => $ciudad->getNorte(),
+            'sur' => $ciudad->getSur(),
+            'este' => $ciudad->getEste(),
+            'oeste' => $ciudad->getOeste()
+        ];
 
         $data = $this->webClientService->consultarTemperatura(
-            $norte, $sur, $este, $oeste
+            $bbox
         );
 
         foreach($data['weatherObservations'] as $data) {
@@ -110,7 +117,10 @@ class DefaultController extends AbstractController
         }
 
         return $this->render('mapa_temperatura.html.twig', [
-            'temperatura' => array_sum($arrayTemperatura)/count($arrayTemperatura)
+            'temperatura' => array_sum($arrayTemperatura)/count($arrayTemperatura),
+            'bbox' => $bbox,
+            'lon' => $center['lon'],
+            'lat' => $center['lat']
         ]);
     }
 }
