@@ -1,0 +1,26 @@
+REQUISITOS:
+1. BD en local con la siguiente configuración:
+    esquema:evelb
+    usuario:root
+    clave:root
+    host:localhost
+    puerto:3306
+    - Si no se pueden cumplir, modificar la cadena de conexión el en fichero .env
+
+2. Instalar binario de Symfony:
+    Windows: https://get.symfony.com/cli/setup.exe
+    Linux: ejecutar 'wget https://get.symfony.com/cli/installer -O - | bash'
+
+3. Instalar composer
+    Windows: https://getcomposer.org/Composer-Setup.exe
+    Linux: ejecutar 'apt install composer'
+
+4. Instalar PHP7
+
+5. Descargar el código desde GitHub:
+    https://github.com/jlorenzo681/prueba_evelb.git
+
+EJECUCIÓN:
+1. Abrir una consola en el directorio del proyecto (prueba_evelb)
+2. Ejecutar 'composer install'
+3. Ejecutar 'php bin/console doctrine:migrations:migrate'
