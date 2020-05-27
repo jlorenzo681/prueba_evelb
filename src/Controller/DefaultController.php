@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Repository\CiudadRepository;
+use App\Service\CiudadService;
 use App\Service\UtilityService;
 use App\Service\WebClientService;
 use Doctrine\ORM\NoResultException;
@@ -13,23 +13,18 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
 {
-    private const AZUL = 'rgba(100, 100, 255, 1)';
-    private const VERDE = 'rgba(100, 255, 100, 1)';
-    private const ROJO = 'rgba(255, 100, 100, 1)';
-    private const BLANCO = 'rgba(255, 255, 255, 1)';
-
-    private $ciudadRepository;
     private $webClientService;
     private $utilityService;
+    private $ciudadService;
 
     public function __construct(
-        CiudadRepository $ciudadRepository,
         WebClientService $webClientService,
-        UtilityService $utilityService)
+        UtilityService $utilityService,
+        CiudadService $ciudadService)
     {
-        $this->ciudadRepository = $ciudadRepository;
         $this->webClientService = $webClientService;
         $this->utilityService = $utilityService;
+        $this->ciudadService = $ciudadService;
     }
 
     /**
@@ -52,29 +47,8 @@ class DefaultController extends AbstractController
     {
         $request = Request::createFromGlobals();
         $nombre = $request->get('ciudad');
-        $data = $this->webClientService->buscarCiudad($nombre);
 
-        $dataCiudades = $data['geonames'];
-
-        $ciudades = [];
-
-        foreach ($dataCiudades as $ciudad) {
-
-            if (isset($ciudad['bbox'])) {
-                $nuevaCiudad = $this->utilityService->ciudadArrayToEntity(
-                    $ciudad['name'],
-                    $ciudad['countryName'],
-                    $ciudad['adminName2'],
-                    $ciudad['bbox'],
-                    (float)$ciudad['lat'],
-                    (float) $ciudad['lng'],
-                    0
-                );
-
-                $this->ciudadRepository->guardarCiudad($nuevaCiudad);
-                $ciudades[] = $nuevaCiudad;
-            }
-        }
+        $ciudades = $this->ciudadService->buscarCiudadasPorNombre($nombre);
 
         return $this->render('resultado_busqueda.html.twig', [
             'ciudades' => $ciudades
@@ -92,55 +66,22 @@ class DefaultController extends AbstractController
      */
     public function consultarTemperatura(): Response
     {
-        $arrayTemperatura = [];
         $request = Request::createFromGlobals();
         $id = $request->get('id');
 
-        $ciudad = $this->ciudadRepository->find($id);
+        $ciudad = $this->ciudadService->obtenerCiudad($id);
 
         if ($ciudad === null) {
             throw new NoResultException;
         }
 
-        $center = [
-            'lat' => ($ciudad->getLatitud()),
-            'lon' => ($ciudad->getLongitud())
-        ];
+        [$center, $bbox] = $this->ciudadService->extraerCoordenadas($ciudad);
 
-        $bbox = [
-            'norte' => $ciudad->getNorte(),
-            'sur' => $ciudad->getSur(),
-            'este' => $ciudad->getEste(),
-            'oeste' => $ciudad->getOeste()
-        ];
+        $resultadosTemperatura = $this->webClientService->consultarTemperatura($bbox);
 
-        $data = $this->webClientService->consultarTemperatura(
-            $bbox
-        );
+        $temperatura = $this->utilityService->obtenerTemperaturaMedia($resultadosTemperatura);
 
-        foreach($data['weatherObservations'] as $data) {
-            $arrayTemperatura[] = $data['temperature'];
-        }
-
-        $temperatura = 0;
-        if (!empty($arrayTemperatura)) {
-            $temperatura = array_sum($arrayTemperatura)/count($arrayTemperatura);
-        }
-
-        switch(true) {
-            case $temperatura <= 10:
-                $color = self::AZUL;
-                break;
-            case $temperatura <= 25:
-                $color = self::VERDE;
-                break;
-            case $temperatura <= 40:
-                $color = self::ROJO;
-                break;
-            default:
-                $color = self::BLANCO;
-                break;
-        }
+        $color = $this->utilityService->decidirColorMarcador($temperatura);
 
         return $this->render('mapa_temperatura.html.twig', [
             'temperatura' => $temperatura,

@@ -8,10 +8,13 @@
 
 namespace App\Service;
 
-use App\Entity\Ciudad;
-
 class UtilityService
 {
+    private const AZUL = 'rgba(100, 100, 255, 1)';
+    private const VERDE = 'rgba(100, 255, 100, 1)';
+    private const ROJO = 'rgba(255, 100, 100, 1)';
+    private const BLANCO = 'rgba(255, 255, 255, 1)';
+
     /**
      * UtilityService constructor.
      */
@@ -20,30 +23,44 @@ class UtilityService
     }
 
     /**
-     * @param $nombre
-     * @param $pais
-     * @param $provincia
-     * @param $bbox
-     * @param $latitud
-     * @param $longitud
-     * @param int $temperatura
-     * @return Ciudad
+     * @param $resultadosTemperatura
+     * @return float|int
      */
-    public function ciudadArrayToEntity($nombre, $pais, $provincia, $bbox, $latitud, $longitud, $temperatura = 0): Ciudad
+    public function obtenerTemperaturaMedia($resultadosTemperatura)
     {
-        $nuevaCiudad = new Ciudad();
+        $arrayTemperatura = [];
 
-        $nuevaCiudad->setNombre($nombre);
-        $nuevaCiudad->setPais($pais);
-        $nuevaCiudad->setProvincia($provincia);
-        $nuevaCiudad->setNorte((double) $bbox['north']);
-        $nuevaCiudad->setSur((double) $bbox['south']);
-        $nuevaCiudad->setEste((double) $bbox['east']);
-        $nuevaCiudad->setOeste((double) $bbox['west']);
-        $nuevaCiudad->setLatitud($latitud);
-        $nuevaCiudad->setLongitud($longitud);
-        $nuevaCiudad->setTemperatura($temperatura);
+        foreach ($resultadosTemperatura['weatherObservations'] as $data) {
+            $arrayTemperatura[] = $data['temperature'];
+        }
 
-        return $nuevaCiudad;
+        $temperatura = 0;
+        if (!empty($arrayTemperatura)) {
+            $temperatura = array_sum($arrayTemperatura) / count($arrayTemperatura);
+        }
+        return $temperatura;
+    }
+
+    /**
+     * @param $temperatura
+     * @return string
+     */
+    public function decidirColorMarcador($temperatura): string
+    {
+        switch (true) {
+            case $temperatura <= 10:
+                $color = self::AZUL;
+                break;
+            case $temperatura <= 25:
+                $color = self::VERDE;
+                break;
+            case $temperatura <= 40:
+                $color = self::ROJO;
+                break;
+            default:
+                $color = self::BLANCO;
+                break;
+        }
+        return $color;
     }
 }
