@@ -1,10 +1,29 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    Inicio
-    <form method="GET" action="{{ path('buscar_ciudad') }}">
-        <label>
-            <input type="text" name="ciudad" />
-        </label>
-        <button type="submit">Buscar</button>
-    </form>
+    <div class="container-sm">
+        <div id="busqueda">
+        <h2>Inicio</h2>
+        <form method="GET" action="{{ path('buscar_ciudad') }}">
+            <div class="form-group">
+                <label for="ciudad">Ciudad</label>
+                <input type="text" class="form-control" id="ciudad" name="ciudad">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Buscar</button>
+        </form>
+        </div>
+
+        <div id="historico">
+            <h2>Busquedas anteriores</h2>
+            <ul class="list-group">
+                {% for ciudad in historicoCiudades%}
+                    <li class="list-group-item">
+                        <a href="{{ path('consultar_temperatura') }}?id={{ ciudad.id }}">
+                            {{ ciudad.nombre }} ({{ ciudad.provincia }}/{{ ciudad.pais }})
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 {% endblock %}

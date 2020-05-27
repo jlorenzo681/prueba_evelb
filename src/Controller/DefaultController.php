@@ -32,7 +32,11 @@ class DefaultController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('inicio.html.twig');
+        $ciudades = $this->ciudadService->historico();
+
+        return $this->render('inicio.html.twig', [
+            'historicoCiudades' => $ciudades
+        ]);
     }
 
     /**

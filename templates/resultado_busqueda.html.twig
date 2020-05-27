@@ -1,9 +1,15 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    Ciudades
-    <ul>
+<div class="container-sm">
+    <h2>Resultado busqueda</h2>
+    <ul class="list-group">
         {% for ciudad in ciudades%}
-            <li><a href="{{ path('consultar_temperatura') }}?id={{ ciudad.id }}">{{ ciudad.nombre }} ({{ ciudad.provincia }}/{{ ciudad.pais }})</a></li>
+            <li class="list-group-item">
+                <a href="{{ path('consultar_temperatura') }}?id={{ ciudad.id }}">
+                    {{ ciudad.nombre }} ({{ ciudad.provincia }}/{{ ciudad.pais }})
+                </a>
+            </li>
         {% endfor %}
     </ul>
+</div>
 {% endblock %}

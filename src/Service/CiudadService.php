@@ -121,4 +121,12 @@ class CiudadService
         ];
         return array($center, $bbox);
     }
+
+    /**
+     * @return array
+     */
+    public function historico(): array
+    {
+        return $this->ciudadRepository->findAll();
+    }
 }
