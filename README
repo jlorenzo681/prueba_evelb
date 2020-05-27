@@ -24,3 +24,5 @@ EJECUCIÓN:
 1. Abrir una consola en el directorio del proyecto (prueba_evelb)
 2. Ejecutar 'composer install'
 3. Ejecutar 'php bin/console doctrine:migrations:migrate'
+4. Ejecutar 'symfony server:start'
+5. Abrir http://localhost:8000 en el navegador
