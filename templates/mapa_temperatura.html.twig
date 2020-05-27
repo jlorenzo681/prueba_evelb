@@ -23,6 +23,7 @@
         const lonLat = [lon, lat];
 
         mapboxgl.accessToken = 'pk.eyJ1IjoiamxvcmVuem9wIiwiYSI6ImNrYW9iYnIxYTEyMWEydHFtNmdyMWNxdWYifQ.PWvneZDcGzIPYO334co6qA';
+
         var map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/mapbox/streets-v11',
@@ -30,7 +31,7 @@
             zoom: 8
         });
 
-        var size = 200;
+        var size = 150;
 
         var pulsingDot = {
             width: size,
@@ -61,7 +62,7 @@
                     0,
                     Math.PI * 2
                 );
-                context.fillStyle = 'rgba(255, 200, 200,' + (1 - t) + ')';
+                context.fillStyle = 'rgba(255, 255, 255,' + (1 - t) + ')';
                 context.fill();
 
                 context.beginPath();
@@ -72,7 +73,7 @@
                     0,
                     Math.PI * 2
                 );
-                context.fillStyle = 'rgba(255, 100, 100, 1)';
+                context.fillStyle = '{{ color }}';
                 context.strokeStyle = 'white';
                 context.lineWidth = 2 + 4 * (1 - t);
                 context.fill();

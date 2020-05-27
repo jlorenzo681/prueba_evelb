@@ -13,6 +13,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
 {
+    private const AZUL = 'rgba(100, 100, 255, 1)';
+    private const VERDE = 'rgba(100, 255, 100, 1)';
+    private const ROJO = 'rgba(255, 100, 100, 1)';
+    private const BLANCO = 'rgba(255, 255, 255, 1)';
+
     private $ciudadRepository;
     private $webClientService;
     private $utilityService;
@@ -122,11 +127,27 @@ class DefaultController extends AbstractController
             $temperatura = array_sum($arrayTemperatura)/count($arrayTemperatura);
         }
 
+        switch(true) {
+            case $temperatura <= 10:
+                $color = self::AZUL;
+                break;
+            case $temperatura <= 25:
+                $color = self::VERDE;
+                break;
+            case $temperatura <= 40:
+                $color = self::ROJO;
+                break;
+            default:
+                $color = self::BLANCO;
+                break;
+        }
+
         return $this->render('mapa_temperatura.html.twig', [
             'temperatura' => $temperatura,
             'bbox' => $bbox,
             'lon' => $center['lon'],
-            'lat' => $center['lat']
+            'lat' => $center['lat'],
+            'color' => $color
         ]);
     }
 }
