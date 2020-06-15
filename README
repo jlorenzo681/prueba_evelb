@@ -1,3 +1,6 @@
+Este proyecto es un cliente web que utiliza la API de Geonames (http://www.geonames.org) para obtener la localizacion de una ciudad determinada.
+Tras obtener los datos de coordenadas, se indica la temperatura de dicha localización.
+
 REQUISITOS:
 1. BD en local con la siguiente configuración:
     esquema:evelb
