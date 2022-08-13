@@ -1,31 +1,31 @@
-Este proyecto es un cliente web que utiliza la API de Geonames (http://www.geonames.org) para obtener la localizacion de una ciudad determinada.
-Tras obtener los datos de coordenadas, se indica la temperatura de dicha localización.
+This project uses the Geonames API (http://www.geonames.org) to obtain the location of a given city.
+After obtaining the coordinate data, the temperature of that location is displayed.
 
-REQUISITOS:
-1. BD en local con la siguiente configuración:
-    esquema:evelb
-    usuario:root
-    clave:root
+REQUIREMENTS:
+1. Local DB with the following configuration:
+    schema:evelb
+    user:root
+    password:root
     host:localhost
-    puerto:3306
-    - Si no se pueden cumplir, modificar la cadena de conexión el en fichero .env
+    port:3306
+    - If they cannot be met, modify the connection string in the .env file.
 
-2. Instalar binario de Symfony:
+2. Install Symfony binary:
     Windows: https://get.symfony.com/cli/setup.exe
-    Linux: ejecutar 'wget https://get.symfony.com/cli/installer -O - | bash'
+    Linux: run 'wget https://get.symfony.com/cli/installer -O - | bash'.
 
-3. Instalar composer
+3. Install composer
     Windows: https://getcomposer.org/Composer-Setup.exe
-    Linux: ejecutar 'apt install composer'
+    Linux: run 'apt install composer'.
 
-4. Instalar PHP7
+4. Install PHP7
 
-5. Descargar el código desde GitHub:
+5. Download the code from GitHub:
     https://github.com/jlorenzo681/prueba_evelb.git
 
-EJECUCIÓN:
-1. Abrir una consola en el directorio del proyecto (prueba_evelb)
-2. Ejecutar 'composer install'
-3. Ejecutar 'php bin/console doctrine:migrations:migrate'
-4. Ejecutar 'symfony server:start'
-5. Abrir http://localhost:8000 en el navegador
+EXECUTION:
+Open a console in the project directory (test_evelb) 2.
+2. Run 'composer install'.
+3. Execute 'php bin/console doctrine:migrations:migrate' 4.
+4. Run 'symfony server:start'.
+5. Open http://localhost:8000 in the browser
